@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Jill's Blog</title>
+        <!--margin 0 auto centers content-->
+        <style type="text/css">
+            .error {
+                color: red;
+            }
+
+            body {
+                margin: 0 auto;
+                width: 980px;
+                font-family: Verdana, sans-serif;
+            }
+
+        </style>
+    </head>
+    <body>
+        <h1>
+            <!--Header links to base page, so every page has easy way to get back home -->
+            <a href="/">Jill's Blog</a>
+        </h1>
+<!--Divide content into blocks, then import as desired; create block for ad content, for example-->
+
+<!--block placeholder(s)-->
+        {% block new_post %}
+        {% endblock %}
+
+        {% block recent_posts %}
+        {% endblock %}
+
+    </body>
+</html>
