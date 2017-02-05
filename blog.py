@@ -74,7 +74,10 @@ class ViewPost(Handler):
         # get_by_id expects either long or integer; long type better than int
         # for autonumber field.
         post = Blog.get_by_id(long(id))
-        self.render("single_post.html", post=post)
+        error = ""
+        if not post:
+            error = "No post exists with that ID"
+        self.render("single_post.html", post=post, error=error)
 
 
 app = webapp2.WSGIApplication([
