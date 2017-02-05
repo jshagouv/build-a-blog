@@ -56,7 +56,8 @@ class NewPost(Handler):
             # add data to table
             new_post.put()
             # redirect to root
-            self.redirect("/")
+            #self.redirect("/")
+            self.redirect("/blog/{0}".format(str(new_post.key().id())))
 
 class RecentPosts(Handler):
     """Handle requests to /blog by displaying
