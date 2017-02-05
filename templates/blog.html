@@ -4,7 +4,7 @@
     {% for p in posts %}
         <div class="post">
             <div class="post-title">
-                {{p.title}}
+                <a href="\blog\{{p.key().id()}}">{{p.title}}</a>
             </div>
             <div class="post-date">
                 {{p.created}}
