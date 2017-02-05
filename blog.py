@@ -33,21 +33,21 @@ class Index(Handler):
     """Handles requests coming in to '/'
     """
     def get(self):
-        self.render("base.html")
-"""
+        self.render("new_post.html")
+
     def post(self):
         title = self.request.get("title")
-        art = self.request.get("art")
+        body = self.request.get("body")
 
-        if title and art:
-            new_art = Art(title=title, art=art)
+        if title and body:
+            new_post = Blog(title=title, body=body)
             # add data to table
-            new_art.put()
+            new_post.put()
             self.redirect("/")
         else:
-            error = "we need both a title and some artwork"
-            self.render_front(title, art, error)
-"""
+            error = "we need both a title and some content"
+            self.render("new_post.html",title=title, body=body, error=error)
+
     # TODO create class that handles new posts '/newpost'
 
     # TODO create a class that handles displaying most recent posts '/blog'
