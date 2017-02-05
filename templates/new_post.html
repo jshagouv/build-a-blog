@@ -24,5 +24,20 @@
 {% endblock %}
 
 {% block recent_posts %}
-recent post!
+    <br />
+    {% for p in posts %}
+        <div class="post">
+            <div class="post-title">
+                {{p.title}}
+            </div>
+            <div class="post-date">
+                {{p.created}}
+            </div>
+            <div class="post-body">
+                {{p.body}}
+            </div>
+        </div>
+        <hr />
+        <br />
+    {% endfor %}
 {% endblock %}
