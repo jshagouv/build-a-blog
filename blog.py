@@ -32,12 +32,10 @@ class Blog(db.Model):
 class Index(Handler):
     """Handles requests coming in to '/' by displaying all posts.
     """
-    def render_blog(self, title="", body="", error=""):
+    def get(self):
         posts = db.GqlQuery("SELECT * FROM Blog "
                                   "ORDER BY created DESC;")
-        self.render("blog.html", title=title, body=body, error=error, posts=posts)
-    def get(self):
-        self.render_blog()
+        self.render("blog.html", posts=posts)
 
 class NewPost(Handler):
     """Handle requests to /new_post form
@@ -53,25 +51,36 @@ class NewPost(Handler):
             error = "A proper post requires both a title and content"
             self.render("new_post.html",title=title, body=body, error=error)
         else:
+            # create new data entity (row/record)
             new_post = Blog(title=title, body=body)
             # add data to table
             new_post.put()
+            # redirect to root
             self.redirect("/")
 
 class RecentPosts(Handler):
     """Handle requests to /blog by displaying
     5 most recent posts.
     """
-    def render_recent(self, title="", body="", error=""):
+    def get(self):
         posts = db.GqlQuery("SELECT * FROM Blog "
                                   "ORDER BY created DESC "
                                   "LIMIT 5;")
-        self.render("blog.html", title=title, body=body, error=error, posts=posts)
-    def get(self):
-        self.render_recent()
+        self.render("blog.html",posts=posts)
+
+
+class ViewPost(Handler):
+    def get(self, id):
+        # get_by_id expects either long or integer; long type better than int
+        # for autonumber field.
+        post = Blog.get_by_id(long(id))
+        self.render("single_post.html", post=post)
+
 
 app = webapp2.WSGIApplication([
     ('/', Index),
     ('/new_post', NewPost),
-    ('/blog', RecentPosts)
+    ('/blog', RecentPosts),
+    # \d = digit, + = at least 1; so requiring an id of 1 or more digits
+    webapp2.Route('/blog/<id:\d+>', ViewPost)
 ], debug=True)
