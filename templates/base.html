@@ -13,7 +13,21 @@
                 width: 980px;
                 font-family: Verdana, sans-serif;
             }
+            h1 {
+                margin-bottom: 0.25em;
+            }
 
+            nav {
+                display:block;
+            }
+
+            nav a {
+                text-decoration: none;
+                color:white;
+                font-size:1em;
+                background-color:#005CE6;
+                padding:2px 4px;
+            }
             textarea {
                 width:400px;
                 height:200px;
@@ -35,19 +49,24 @@
             }
         </style>
     </head>
-    <body>
+    <header>
         <h1>
-            <!--Header links to base page, so every page has easy way to get back home -->
-            <a href="/">Jill's Blog</a>
+            Jill's Blog
         </h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/new_post">New Post</a>
+            <a href="/blog">Recent Posts</a>
+        </nav>
+    </header>
+    <body>
 <!--Divide content into blocks, then import as desired; create block for ad content, for example-->
 
 <!--block placeholder(s)-->
         {% block new_post %}
         {% endblock %}
-        <br />
-        <hr />
-        {% block recent_posts %}
+
+        {% block posts %}
         {% endblock %}
 
     </body>

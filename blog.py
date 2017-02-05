@@ -30,7 +30,17 @@ class Blog(db.Model):
     created = db.DateTimeProperty(auto_now_add = True)
 
 class Index(Handler):
-    """Handles requests coming in to '/'
+    """Handles requests coming in to '/' by displaying all posts.
+    """
+    def render_blog(self, title="", body="", error=""):
+        posts = db.GqlQuery("SELECT * FROM Blog "
+                                  "ORDER BY created DESC;")
+        self.render("blog.html", title=title, body=body, error=error, posts=posts)
+    def get(self):
+        self.render_blog()
+
+class NewPost(Handler):
+    """Handle requests to /new_post form
     """
     def get(self):
         self.render("new_post.html")
@@ -39,19 +49,29 @@ class Index(Handler):
         title = self.request.get("title")
         body = self.request.get("body")
 
-        if title and body:
+        if (not title) or (not body) or title.strip()=="" or body.strip()=="":
+            error = "A proper post requires both a title and content"
+            self.render("new_post.html",title=title, body=body, error=error)
+        else:
             new_post = Blog(title=title, body=body)
             # add data to table
             new_post.put()
             self.redirect("/")
-        else:
-            error = "we need both a title and some content"
-            self.render("new_post.html",title=title, body=body, error=error)
 
-    # TODO create class that handles new posts '/newpost'
-
-    # TODO create a class that handles displaying most recent posts '/blog'
+class RecentPosts(Handler):
+    """Handle requests to /blog by displaying
+    5 most recent posts.
+    """
+    def render_recent(self, title="", body="", error=""):
+        posts = db.GqlQuery("SELECT * FROM Blog "
+                                  "ORDER BY created DESC "
+                                  "LIMIT 5;")
+        self.render("blog.html", title=title, body=body, error=error, posts=posts)
+    def get(self):
+        self.render_recent()
 
 app = webapp2.WSGIApplication([
-    ('/', Index)
+    ('/', Index),
+    ('/new_post', NewPost),
+    ('/blog', RecentPosts)
 ], debug=True)
