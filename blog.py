@@ -70,6 +70,9 @@ class RecentPosts(Handler):
 
 
 class ViewPost(Handler):
+    """Handle requests to /blog/id, by routing to the permalink
+    for the post.
+    """
     def get(self, id):
         # get_by_id expects either long or integer; long type better than int
         # for autonumber field.

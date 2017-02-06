@@ -3,15 +3,9 @@
 {% block content %}
     {% for p in posts %}
         <div class="post">
-            <div class="post-title">
-                <a href="\blog\{{p.key().id()}}">{{p.title}}</a>
-            </div>
-            <div class="post-date">
-                {{p.created}}
-            </div>
-            <div class="post-body">
-                {{p.body}}
-            </div>
+            <div class="post-title"><a href="\blog\{{p.key().id()}}">{{p.title}}</a></div>
+            <div class="post-date">{{p.created}}</div>
+            <div class="post-body">{{p.body}}</div>
         </div>
         <hr />
         <br />
