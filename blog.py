@@ -30,12 +30,10 @@ class Blog(db.Model):
     created = db.DateTimeProperty(auto_now_add = True)
 
 class Index(Handler):
-    """Handles requests coming in to '/' by displaying all posts.
+    """Handles requests coming in to '/' by redirecting to '/blog'
     """
     def get(self):
-        posts = db.GqlQuery("SELECT * FROM Blog "
-                                  "ORDER BY created DESC;")
-        self.render("blog.html", posts=posts)
+        self.redirect('/blog')
 
 class NewPost(Handler):
     """Handle requests to /new_post form
@@ -80,7 +78,7 @@ class ViewPost(Handler):
         error = ""
         if not post:
             error = "No post exists with that ID"
-        self.render("single_post.html", post=post, error=error)
+        self.render("blog.html", posts=[post], error=error)
 
 
 app = webapp2.WSGIApplication([
