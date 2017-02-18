@@ -1,13 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% for p in posts %}
-        <div class="post">
-            <div class="post-title"><a href="\blog\{{p.key().id()}}">{{p.title}}</a></div>
-            <div class="post-date">{{p.created}}</div>
-            <div class="post-body">{{p.body}}</div>
-        </div>
-        <hr />
-        <br />
-    {% endfor %}
+    {% if error %}
+        <div class="error">{{error}}</div>
+    {% else %}
+        {% for p in posts %}
+            <div class="post">
+                <div class="post-title"><a href="\blog\{{p.key().id()}}">{{p.title}}</a></div>
+                <div class="post-date">{{p.created}}</div>
+                <div class="post-body">{{p.body}}</div>
+            </div>
+            <hr />
+            <br />
+        {% endfor %}
+    {% endif %}
 {% endblock %}
